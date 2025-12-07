@@ -1,56 +1,49 @@
-### 🎶 SpoFree
-Here is a polished version of your README, using clearer formatting, more engaging language, and better organization.
+# 🎶 SpoFree
 
-🎶 SpoFree
-SpoFree is a free, open-source, and ad-free music player that offers a massive music catalogue and a clean user interface reminiscent of Spotify. Best of all, no sign-up or credentials are required to start listening.
+SpoFree ist ein kostenloser und komplett werbefreier Musikplayer mit großem Katalog und einem cleanen Interface das an Spotify erinnert. Du brauchst keinen Account und keine Daten. Einfach öffnen und hören.
 
-✨ Features
-🚫 Ad-Free Listening: Enjoy uninterrupted music playback without commercials.
+## ✨ Features
 
-🔊 Lossless Playback: Experience high-fidelity audio quality.
+- 🚫 **Keine Werbung** für entspanntes Hören
+- 🔊 **Lossless Playback** für richtig gute Soundqualität
+- 🎵 **Riesiger Katalog** dank kompletter TIDAL Library
+- 🖼️ **Bekanntes UI** ähnlich wie Spotify
+- ▶️ **Playlists** selbst erstellen und verwalten
+- 💾 **Lokale Speicherung** über IndexDB direkt im Browser
+- 🔎 **Starke Suche** nach Songs, Alben, Artists oder Playlists
+- 🗄️ **Filter** um Ergebnisse schnell zu sortieren  
+- 📌 **Mehr Features kommen noch**
 
-🎵 Wide Catalogue: Access the entire music library available on TIDAL.
+## 🌐 Live Versionen
 
-🖼️ Clean UI: A familiar and intuitive interface, similar to Spotify.
+| Version          | URL                          | Hinweis                     |
+|------------------|-------------------------------|-----------------------------|
+| **Stable**       | spofree.netlify.app           | Empfohlen für normalen Use |
+| **Beta**         | spofree-beta.netlify.app      | Neue Features, evtl buggy  |
 
-▶️ Playlist Support: Create and manage your own music collections.
+## ⚙️ Wie es funktioniert
 
-💾 Local Storage: Playlists are securely saved and retrieved using IndexDB in your browser.
+SpoFree ist ein Client der Lossless Audio direkt aus dem TIDAL Katalog holt.  
+Dafür nutzt es HiFi APIs welche aus offenen Projekten stammen.
 
-🔎 Comprehensive Search: Find any song, album, artist, or playlist.
+Ablauf kurz erklärt:
+1. du suchst nach einem Song  
+2. SpoFree fragt die API  
+3. die API gibt den direkten TIDAL Lossless Stream zurück  
+4. SpoFree spielt den Stream ab
 
-🗄️ Search Filtering: Easily sort your search results by Album, Track, Artist, or Playlist.
+## 🚀 Deployment
 
-(Future updates planned for even more features!)
+Du kannst SpoFree easy selbst hosten, zum Beispiel auf **Netlify** oder **Vercel**, komplett kostenlos.
 
-🌐 Live Versions
-Version	URL	Note
-Official Stable	spofree.netlify.app	Use this version first.
-Beta (May be buggy)	spofree-beta.netlify.app	For testing the latest features.
-⚙️ How It Works
-SpoFree functions as a client that fetches lossless audio directly from TIDAL's catalogue.
+## 🤝 Contribution
 
-SpoFree utilizes a HiFi API to find and fetch high-fidelity, lossless songs.
+Mitmachen ist willkommen. Einfach ein Pull Request öffnen.
 
-The specific API instances are sourced from open-source projects like the list found here.
+## 🔗 Related Projects
 
-When you search for a track and click it, the API provides a direct TIDAL link/stream for the lossless audio, which SpoFree then plays.
-
-🚀 Deployment
-You can deploy your own instance of SpoFree easily and for free on platforms like Netlify or Vercel.
-
-🤝 Contribution
-We welcome contributions! Please feel free to open a Pull Request to help improve SpoFree.
-
-🔗 Related Projects
-Check out these open-source repositories that inspired or are related to SpoFree:
-
-uimaxbai/tidal-ui
-
-sachinsenal0x64/hifi
-
-uimaxbai/hifi-api
-
-monochrome-music/monochrome
-
-EduardPrigoana/hifi-instances
+- uimaxbai/tidal-ui  
+- sachinsenal0x64/hifi  
+- uimaxbai/hifi-api  
+- monochrome-music/monochrome  
+- EduardPrigoana/hifi-instances
