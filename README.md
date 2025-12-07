@@ -18,9 +18,8 @@ SpoFree is a free, open-source, and ad-free music player with a massive catalogu
 
 | Version        | URL                         | Note                          |
 |----------------|------------------------------|-------------------------------|
-| **Stable**     | https://spofree.netlify.app  | Recommended version           |
-| **Stable (2)**     | https://spo.free.nf | Recommended version           |
-| **Beta**       | https://spofree-beta.netlify.app | Test new features, may be buggy |
+| **Stable**     | https://spo.free.nf  | Recommended version           |
+| **Beta**       | https://spofree-beta.netlify.app | New features, may be buggy |
 
 ## ⚙️ How It Works
 
