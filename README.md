@@ -38,9 +38,9 @@ The API instances come from open-source HiFi projects that provide public endpoi
 You can deploy your own SpoFree instance for free on services like **Netlify** or **Vercel**.  
 Clone the repo, upload, done.
 
-## 🤝 Contributing
+## 🤝 Contributing and Issues
 
-Contributions are welcome. Feel free to open a Pull Request.
+Contributions are welcome. Feel free to open a Pull Request. Also please submit any bugs you find!
 
 ## 🔗 Related Projects
 
