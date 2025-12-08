@@ -44,12 +44,25 @@ How it works:
 The API instances come from open-source HiFi projects that provide public endpoints.
 
 ## Screenshots
+#### Album View:
 ![album](https://raw.githubusercontent.com/redretep/spofree/ae27a51a154f159ff419b094830b916c00a6a4a2/images/album.jpeg)
+
+#### Audio Quality Selector:
 ![audioquality](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/audioquality.jpeg)
+
+#### Color Selector:
 ![colors](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/colors.jpeg)
+
+#### Import Playlist Screen:
 ![import](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/import.jpeg)
+
+#### Library:
 ![library](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/library.jpeg)
+
+#### Liked Songs:
 ![likedsongs](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/likedsongs.jpeg)
+
+#### Extra Settings:
 ![tweaks](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/tweaks.jpeg)
 
 ## 🚀 Deployment
