@@ -1,5 +1,5 @@
 # 🎶 SpoFree
-![home](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/home.jpeg)
+<img src="https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/home.jpeg" width="100%">
 SpoFree is a free, open-source, and ad-free music player with a massive catalogue and a clean interface similar to Spotify. No account, no login, no setup. Just open it and start listening.
 
 ## Features
@@ -44,26 +44,26 @@ How it works:
 The API instances come from open-source HiFi projects that provide public endpoints.
 
 ## Screenshots
-#### Album View:
-![album](https://raw.githubusercontent.com/redretep/spofree/ae27a51a154f159ff419b094830b916c00a6a4a2/images/album.jpeg)
+### Album View:
+<img src="https://raw.githubusercontent.com/redretep/spofree/ae27a51a154f159ff419b094830b916c00a6a4a2/images/album.jpeg" width="50%"> 
 
-#### Audio Quality Selector:
-![audioquality](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/audioquality.jpeg)
+### Audio Quality Selector: 
+<img src="https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/audioquality.jpeg" width="50%"> 
 
-#### Color Selector:
-![colors](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/colors.jpeg)
+### Color Selector: 
+<img src="https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/colors.jpeg" width="50%"> 
 
-#### Import Playlist Screen:
-![import](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/import.jpeg)
+### Import Playlist Screen: 
+<img src="https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/import.jpeg" width="50%"> 
 
-#### Library:
-![library](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/library.jpeg)
+### Library: 
+<img src="https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/library.jpeg" width="50%">
 
-#### Liked Songs:
-![likedsongs](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/likedsongs.jpeg)
+### Liked Songs:
+<img src="https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/likedsongs.jpeg" width="50%">
 
-#### Extra Settings:
-![tweaks](https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/tweaks.jpeg)
+### Extra Settings:
+<img src="https://raw.githubusercontent.com/redretep/spofree/eaa74dbda39aea0470a7f388436c094ce61b990a/images/tweaks.jpeg" width="50%">
 
 ## 🚀 Deployment
 
