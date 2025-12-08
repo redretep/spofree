@@ -67,6 +67,8 @@ The API instances come from open-source HiFi projects that provide public endpoi
 
 ## 🚀 Deployment
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fredretep%2Fspofree%2F)
+
 You can deploy your own SpoFree instance for free on services like **Netlify** or **Vercel**.  
 Clone the repo, upload, done.
 
