@@ -198,8 +198,9 @@ const App: React.FC = () => {
     // 2. Default Popular Content
     try {
         const [popRes, hitsRes] = await Promise.all([
-            searchAll('Pop'),
-            searchAll('Top Hits')
+            searchAll('party 2010'),
+            searchAll('tidal picks')
+            
         ]);
 
         if (popRes.playlists.length > 0) {
