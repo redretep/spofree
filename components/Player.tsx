@@ -19,6 +19,7 @@ interface PlayerProps {
   
   onArtistClick: (artistId: string | number) => void;
   onQualityClick: () => void;
+  onDownload: () => void;
 
   // Settings Props
   accentColor: string;
@@ -50,7 +51,7 @@ const formatTime = (seconds: number) => {
 export const Player: React.FC<PlayerProps> = ({ 
     currentTrack, isPlaying, onPlayPause, onNext, onPrev,
     isShuffling, repeatMode, onToggleShuffle, onToggleRepeat,
-    onArtistClick, onQualityClick,
+    onArtistClick, onQualityClick, onDownload,
     accentColor, showVisualizer, showStats, sleepTimer, setSleepTimer, highPerformanceMode, disableGlow,
     showQueue, toggleQueue, showLyrics, toggleLyrics,
     queue, onPlayTrack
@@ -95,7 +96,10 @@ export const Player: React.FC<PlayerProps> = ({
 
   // Initialize Audio Context for Visualizer
   useEffect(() => {
-      if (!showVisualizer || !audioRef.current || audioContextRef.current) return;
+      // iOS detection to bypass Visualizer (AudioContext on iOS can be tricky with background audio)
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      
+      if (!showVisualizer || !audioRef.current || audioContextRef.current || isIOS) return;
 
       try {
           const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
@@ -185,8 +189,9 @@ export const Player: React.FC<PlayerProps> = ({
     <>
     <audio 
         ref={audioRef}
+        key={showVisualizer ? 'viz' : 'no-viz'} // Re-mount if visualizer changes to clean context
         src={currentTrack.streamUrl}
-        crossOrigin="anonymous"
+        crossOrigin={showVisualizer ? "anonymous" : undefined}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnded}
         onWaiting={() => setIsBuffering(true)}
@@ -253,9 +258,14 @@ export const Player: React.FC<PlayerProps> = ({
                                     <h1 className="text-3xl font-bold mb-2 cursor-pointer hover:underline" onClick={() => { setIsExpanded(false); onArtistClick(currentTrack.artist.id); }}>{currentTrack.title}</h1>
                                     <h2 className="text-xl text-white/70 cursor-pointer hover:underline" onClick={() => { setIsExpanded(false); onArtistClick(currentTrack.artist.id); }}>{currentTrack.artist.name}</h2>
                                 </div>
-                                <button onClick={toggleLike} className={`transition-transform active:scale-90 ${isLiked ? 'text-green-500' : 'text-white/50 hover:text-white'}`}>
-                                    <Heart size={32} fill={isLiked ? "currentColor" : "none"} />
-                                </button>
+                                <div className="flex items-center gap-4">
+                                    <button onClick={onDownload} className="text-white/50 hover:text-white transition-transform active:scale-90" title="Download">
+                                        <Download size={32} />
+                                    </button>
+                                    <button onClick={toggleLike} className={`transition-transform active:scale-90 ${isLiked ? 'text-green-500' : 'text-white/50 hover:text-white'}`}>
+                                        <Heart size={32} fill={isLiked ? "currentColor" : "none"} />
+                                    </button>
+                                </div>
                             </div>
 
                             {/* Progress */}
@@ -374,6 +384,7 @@ export const Player: React.FC<PlayerProps> = ({
                         <span>TIME: {Math.round(progress)}/{Math.round(duration)}</span>
                     </div>
                 )}
+                <button onClick={onDownload} className="hidden md:block p-2 hover:text-white text-[#b3b3b3]" title="Download"><Download size={18} /></button>
                 <button onClick={toggleLyrics} className={`hidden md:block p-2 hover:text-white ${showLyrics ? 'text-green-500' : 'text-[#b3b3b3]'}`} title="Lyrics"><Mic2 size={18} /></button>
                 <button onClick={toggleQueue} className={`hidden md:block p-2 hover:text-white ${showQueue ? 'text-green-500' : 'text-[#b3b3b3]'}`} title="Queue"><ListMusic size={18} /></button>
                 <div className="hidden md:flex items-center gap-2 group w-24 md:w-32">
@@ -391,7 +402,6 @@ export const Player: React.FC<PlayerProps> = ({
                         style={{ backgroundImage: `linear-gradient(#fff, #fff)`, backgroundSize: `${volume * 100}% 100%`, backgroundRepeat: 'no-repeat' }}
                     />
                 </div>
-                <button onClick={onQualityClick} className="hidden md:block text-xs font-bold border border-[#b3b3b3] rounded px-1 text-[#b3b3b3] hover:text-white hover:border-white">HQ</button>
             </div>
         </div>
     )}
