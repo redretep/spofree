@@ -1,6 +1,7 @@
 
 import { API_INSTANCES } from '../constants';
-import { SearchResult, Track, Album, Artist, Playlist, LyricsLine } from '../types';
+import { SearchResult, Track, Album, Artist, Playlist, AudioQuality } from '../types';
+import { storageService } from './storageService';
 
 let currentInstanceIndex = 0;
 
@@ -70,7 +71,6 @@ const extractUrlFromManifest = (manifestText: string): string | null => {
   }
 
   // 2. XML/Regex Fallback (Simple Regex)
-  // Look for standard audio file extensions or tokens
   const match = text.match(/(https?:\/\/[^\s"<>]+(?:\.flac|\.mp4|\.m4a|\?token=)[^\s"<>]*)/);
   if (match && match[1]) {
       const cleanUrl = match[1].replace(/&amp;/g, '&');
@@ -94,27 +94,55 @@ const extractItems = (data: any, key?: string): any[] => {
     }
     
     // Generic items check
-    if (Array.isArray(root.items)) return root.items;
+    if (root && Array.isArray(root.items)) return root.items;
     if (Array.isArray(root)) return root;
 
     return [];
 };
 
+const resolveArtistName = (item: any): string => {
+    if (item.artist?.name) return item.artist.name;
+    if (item.artists?.[0]?.name) return item.artists[0].name;
+    if (item.creator?.name) return item.creator.name; // Playlists
+    if (item.mainArtist?.name) return item.mainArtist.name;
+    if (item.album?.artist?.name) return item.album.artist.name; // Album artist fallback
+    if (item.mix?.artist?.name) return item.mix.artist.name; // Mixes
+    return 'Unknown Artist';
+};
+
+const resolveArtistId = (item: any): number | string => {
+    if (item.artist?.id) return item.artist.id;
+    if (item.artists?.[0]?.id) return item.artists[0].id;
+    if (item.album?.artist?.id) return item.album.artist.id;
+    return 0;
+};
+
 const parseTrack = (item: any): Track => ({
   id: item.id,
-  title: item.title,
+  title: item.title || 'Unknown Title',
   artist: { 
-    id: item.artist?.id || item.artists?.[0]?.id || 0, 
-    name: item.artist?.name || item.artists?.[0]?.name || 'Unknown Artist', 
-    picture: getTidalImage(item.artist?.picture, 'artist')
+    id: resolveArtistId(item),
+    name: resolveArtistName(item),
+    picture: getTidalImage(item.artist?.picture || item.artists?.[0]?.picture, 'artist')
   },
   album: { 
     id: item.album?.id || 0, 
     title: item.album?.title || 'Unknown Album', 
     cover: getTidalImage(item.album?.cover)
   },
-  duration: item.duration,
+  duration: item.duration || 0,
   quality: item.audioQuality || 'LOSSLESS'
+});
+
+const parseAlbum = (item: any): Album => ({
+    id: item.id,
+    title: item.title || 'Unknown Album',
+    cover: getTidalImage(item.cover),
+    artist: { 
+        id: resolveArtistId(item),
+        name: resolveArtistName(item)
+    },
+    releaseDate: item.releaseDate
 });
 
 // --- Public API ---
@@ -139,16 +167,7 @@ export const searchAll = async (query: string): Promise<SearchResult> => {
 
     // Albums
     const albumsRaw = albumsRes.status === 'fulfilled' ? extractItems(albumsRes.value, 'albums') : [];
-    const albums = albumsRaw.map((item: any) => ({
-        id: item.id,
-        title: item.title,
-        cover: getTidalImage(item.cover),
-        artist: { 
-            id: item.artist?.id || 0,
-            name: item.artist?.name || 'Unknown' 
-        },
-        releaseDate: item.releaseDate
-    })).filter((a: any) => a.id && a.title);
+    const albums = albumsRaw.map(parseAlbum).filter(a => a.id && a.title);
 
     // Artists
     const artistsRaw = artistsRes.status === 'fulfilled' ? extractItems(artistsRes.value, 'artists') : [];
@@ -183,8 +202,17 @@ export const searchAll = async (query: string): Promise<SearchResult> => {
 };
 
 export const getStreamUrl = async (trackId: string | number): Promise<string> => {
-  // Prioritize LOSSLESS/HIGH because HI_RES often returns unplayable DASH segments
-  const qualities = ['LOSSLESS', 'HIGH', 'LOW', 'HI_RES']; 
+  // Get preferred quality from storage
+  const preferredQuality = storageService.getQuality();
+  
+  // Create priority list based on preference
+  const qualities: AudioQuality[] = [preferredQuality];
+  
+  // Add others as fallback
+  ['LOSSLESS', 'HIGH', 'LOW', 'HI_RES'].forEach(q => {
+      if (q !== preferredQuality) qualities.push(q as AudioQuality);
+  });
+
   const TIMEOUT = 15000; 
 
   for (const quality of qualities) {
@@ -194,9 +222,8 @@ export const getStreamUrl = async (trackId: string | number): Promise<string> =>
 
           const json = await response.json();
           
-          // Flatten items
           let items: any[] = [];
-          if (json.data) items = [json.data]; // V2 structure
+          if (json.data) items = [json.data]; 
           else if (Array.isArray(json)) items = json;
           else items = [json];
 
@@ -213,11 +240,9 @@ export const getStreamUrl = async (trackId: string | number): Promise<string> =>
           for (const item of items) {
               if (item.manifest) {
                   try {
-                      // Fix base64 padding/chars
                       const base64 = item.manifest.replace(/-/g, '+').replace(/_/g, '/');
                       const decoded = atob(base64);
                       
-                      // Skip segmented DASH manifests (often unplayable)
                       if (decoded.includes('SegmentTemplate') && !decoded.includes('BaseURL')) continue;
 
                       const url = extractUrlFromManifest(decoded);
@@ -226,7 +251,6 @@ export const getStreamUrl = async (trackId: string | number): Promise<string> =>
                           return url;
                       }
                   } catch (e) {
-                      // Try raw
                       const url = extractUrlFromManifest(item.manifest);
                       if (url) return url;
                   }
@@ -260,12 +284,10 @@ export const getPlaylistTracks = async (uuid: string): Promise<Track[]> => {
 
 export const getArtistTopTracks = async (artistId: string | number): Promise<Track[]> => {
     try {
-        // Use Feed endpoint to get full discography
         const response = await fetchWithFailover(`/artist/?f=${artistId}`);
         if (!response.ok) return [];
         const json = await response.json();
 
-        // Recursively find tracks
         const tracks: Track[] = [];
         const scan = (obj: any) => {
             if (!obj) return;
@@ -274,7 +296,6 @@ export const getArtistTopTracks = async (artistId: string | number): Promise<Tra
                 if (obj.id && obj.title && obj.duration && obj.audioQuality) {
                     tracks.push(parseTrack(obj));
                 }
-                // Recurse known containers
                 if (obj.items) scan(obj.items);
                 else Object.values(obj).forEach(val => {
                     if (typeof val === 'object') scan(val);
@@ -289,21 +310,32 @@ export const getArtistTopTracks = async (artistId: string | number): Promise<Tra
     } catch (e) { return []; }
 };
 
-export const getLyrics = async (trackId: string | number): Promise<LyricsLine[]> => {
+export const getArtistAlbums = async (artistId: string | number): Promise<Album[]> => {
     try {
-        const response = await fetchWithFailover(`/lyrics/?id=${trackId}`, {}, 5000);
+        const response = await fetchWithFailover(`/artist/?f=${artistId}`);
         if (!response.ok) return [];
         const json = await response.json();
-        const data = Array.isArray(json) ? json[0] : json;
-        if (!data?.lyrics) return [];
-        
-        if (data.subtitles) {
-            return data.subtitles.split('\n').map((line: string) => {
-                const m = line.match(/\[(\d+):(\d+\.\d+)\](.*)/);
-                return m ? { time: parseInt(m[1]) * 60 + parseFloat(m[2]), text: m[3].trim() } : null;
-            }).filter(Boolean);
-        }
-        return [{ time: 0, text: data.lyrics }];
+
+        const albums: Album[] = [];
+        const scan = (obj: any) => {
+            if (!obj) return;
+            if (Array.isArray(obj)) obj.forEach(scan);
+            else if (typeof obj === 'object') {
+                // Heuristic to detect albums in the feed (often don't have audioQuality but have cover and title)
+                if (obj.id && obj.title && obj.cover && !obj.duration) {
+                    albums.push(parseAlbum(obj));
+                }
+                if (obj.items) scan(obj.items);
+                else Object.values(obj).forEach(val => {
+                    if (typeof val === 'object') scan(val);
+                });
+            }
+        };
+        scan(json);
+
+        const unique = new Map();
+        albums.forEach(a => unique.set(a.id, a));
+        return Array.from(unique.values()).slice(0, 50);
     } catch (e) { return []; }
 };
 
