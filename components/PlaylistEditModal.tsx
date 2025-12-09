@@ -1,7 +1,7 @@
 
 
 import React, { useState, useRef } from 'react';
-import { X, Trash2, Save, GripVertical, Image as ImageIcon, Upload } from 'lucide-react';
+import { X, Trash2, Save, Image as ImageIcon, Upload, ChevronUp, ChevronDown } from 'lucide-react';
 import { Button } from './Button';
 import { Playlist, Track } from '../types';
 
@@ -21,24 +21,15 @@ export const PlaylistEditModal: React.FC<PlaylistEditModalProps> = ({ playlist, 
     
     // Tracks State
     const [tracks, setTracks] = useState<Track[]>(playlist.tracks || []);
-    
-    // Drag and Drop State
-    const dragItem = useRef<number | null>(null);
-    const dragOverItem = useRef<number | null>(null);
 
-    const handleSort = () => {
-        if (dragItem.current === null || dragOverItem.current === null) return;
-        
-        const _tracks = [...tracks];
-        const draggedItemContent = _tracks[dragItem.current];
-        
-        _tracks.splice(dragItem.current, 1);
-        _tracks.splice(dragOverItem.current, 0, draggedItemContent);
-        
-        dragItem.current = dragOverItem.current;
-        dragOverItem.current = null;
-        
-        setTracks(_tracks);
+    const moveTrack = (index: number, direction: -1 | 1) => {
+        const newTracks = [...tracks];
+        const targetIndex = index + direction;
+
+        if (targetIndex < 0 || targetIndex >= newTracks.length) return;
+
+        [newTracks[index], newTracks[targetIndex]] = [newTracks[targetIndex], newTracks[index]];
+        setTracks(newTracks);
     };
 
     const handleRemoveTrack = (index: number) => {
@@ -128,7 +119,7 @@ export const PlaylistEditModal: React.FC<PlaylistEditModalProps> = ({ playlist, 
                     {/* Track List */}
                     <div className="mb-4 flex items-center justify-between">
                          <h3 className="text-lg font-bold">Tracks ({tracks.length})</h3>
-                         <span className="text-xs text-[#b3b3b3] uppercase tracking-widest">Drag to reorder</span>
+                         <span className="text-xs text-[#b3b3b3] uppercase tracking-widest">Reorder with arrows</span>
                     </div>
                     
                     <div className="flex flex-col bg-[#181818] rounded-lg border border-[#282828] overflow-hidden">
@@ -139,24 +130,23 @@ export const PlaylistEditModal: React.FC<PlaylistEditModalProps> = ({ playlist, 
                                 <div 
                                     key={`${track.id}-${index}`}
                                     className="group flex items-center gap-4 p-3 hover:bg-white/5 border-b border-[#282828] last:border-0 transition-colors"
-                                    draggable
-                                    onDragStart={(e) => {
-                                        dragItem.current = index;
-                                        e.currentTarget.classList.add('opacity-50');
-                                    }}
-                                    onDragEnter={(e) => {
-                                        dragOverItem.current = index;
-                                        handleSort();
-                                    }}
-                                    onDragEnd={(e) => {
-                                        dragItem.current = null;
-                                        dragOverItem.current = null;
-                                        e.currentTarget.classList.remove('opacity-50');
-                                    }}
-                                    onDragOver={(e) => e.preventDefault()}
                                 >
-                                    <div className="text-[#b3b3b3] cursor-grab active:cursor-grabbing hover:text-white p-2">
-                                        <GripVertical size={20} />
+                                    {/* Sort Controls */}
+                                    <div className="flex flex-col gap-1 mr-2">
+                                        <button 
+                                            onClick={() => moveTrack(index, -1)} 
+                                            disabled={index === 0}
+                                            className="p-0.5 text-[#b3b3b3] hover:text-white disabled:opacity-20 disabled:hover:text-[#b3b3b3] rounded hover:bg-white/10"
+                                        >
+                                            <ChevronUp size={16} />
+                                        </button>
+                                        <button 
+                                            onClick={() => moveTrack(index, 1)} 
+                                            disabled={index === tracks.length - 1}
+                                            className="p-0.5 text-[#b3b3b3] hover:text-white disabled:opacity-20 disabled:hover:text-[#b3b3b3] rounded hover:bg-white/10"
+                                        >
+                                            <ChevronDown size={16} />
+                                        </button>
                                     </div>
                                     
                                     <div className="relative w-10 h-10 flex-shrink-0">
