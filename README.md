@@ -29,20 +29,20 @@ SpoFree is a free, open-source, and ad-free music player with a massive catalogu
 
 | Version        | URL                         | Note                          |
 |----------------|------------------------------|-------------------------------|
-| **Stable**     | https://spo.free.nf  | Recommended version           |
-| **Beta**       | https://spofree-beta.netlify.app | New features, may be buggy |
+| **Stable**     | https://spo.free.nf  | Best version           |
+| **Old/Beta**       | https://spofree-beta.netlify.app | older, may be bad |
 
 ## ⚙️ How It Works
 
-SpoFree acts as a client that fetches lossless audio directly from TIDAL’s catalogue.
+SpoFree acts as a Frontend that fetches lossless audio directly from TIDAL.
 
 How it works:
 1. You search for a song  
-2. SpoFree sends the query to a HiFi API  
+2. SpoFree sends the query to a HiFi API
 3. The API returns a direct TIDAL lossless stream link  
-4. SpoFree plays the audio instantly
+4. SpoFree plays the audio
 
-The API instances come from open-source HiFi projects that provide public endpoints.
+The API instances come from [open-source HiFi projects](https://github.com/EduardPrigoana/hifi-instances) that provide public endpoints.
 
 ## Screenshots
 ### Album View:
