@@ -1,8 +1,9 @@
 # 🎶 SpoFree
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fredretep%2Fspofree%2F)
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](app.netlify.com/https://github.com/redretep/spofree)
-<img src="https://raw.githubusercontent.com/redretep/spofree/ae27a51a154f159ff419b094830b916c00a6a4a2/images/album.jpeg" width="100%">
+
 SpoFree is a free, open-source, and ad-free music player based on Tidal with Hi-Res sound. It has a clean interface similar to Spotify.
+<img src="https://raw.githubusercontent.com/redretep/spofree/ae27a51a154f159ff419b094830b916c00a6a4a2/images/album.jpeg" width="100%">
 
 ## Features
 
