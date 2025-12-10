@@ -30,7 +30,7 @@ SpoFree is a free, open-source, and ad-free music player based on Tidal with Hi-
 
 | Version        | URL                         | Note                          |
 |----------------|------------------------------|-------------------------------|
-| **Official**     | https://spo.free.nf  | doesnt have ssl, but it just embeds spofree.vercel.app         |
+| **Official**     | https://spo.free.nf  | doesnt have ssl, but it just embeds spofree.vercel.app, hosted on infinityfree        |
 | **Original**       | https://spofree.vercel.app | original domain, embedded by spo.free.nf |
 
 ## ⚙️ How It Works
