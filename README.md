@@ -35,7 +35,7 @@ SpoFree is a free, open-source, and ad-free music player based on Tidal with Hi-
 
 ## ⚙️ How It Works
 
-SpoFree acts as a Frontend that fetches lossless audio directly from TIDAL.
+SpoFree is a TIDAL frontend that fetches lossless audio for free without ads.
 
 How it works:
 1. You search for a song  
@@ -74,8 +74,7 @@ Contributions are welcome. Feel free to open a Pull Request. Also please submit 
 - https://github.com/uimaxbai/tidal-ui - Original Inspiration for this Project
 - https://github.com/sachinsenal0x64/hifi - Tidal Music integration for Subsonic/Jellyfin/Plexamp
 - https://github.com/uimaxbai/hifi-api - API that fetches the streams
-- https://github.com/monochrome-music/monochrome - alternative free tidal music player that uses the same API
-- https://github.com/EduardPrigoana/hifi-instances - list of instances provided for the hifi API
+- https://github.com/EduardPrigoana/hifi-instances - list of instances provided for the hifi API (dead)
 
 ## 🔎 API List
 
