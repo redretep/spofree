@@ -1,4 +1,4 @@
-### I will not continue to update this project. Feel free to fork the project, add features or fix bugs if you want to.
+# SpoFree, Monochrome and similar services are down due to TIDAL changing its API services. goodbye o7
 
 ---
 
