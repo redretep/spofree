@@ -1,4 +1,4 @@
-# DISCLAIMER: the public instance does not work because public hifi apis are getting banned by tidal. you can fork the repo and add your own hifi api if you want to continue using this project.
+# DISCLAIMER: the public instance does not work because public hifi apis are getting banned by tidal. you can fork the repo and add your own hifi api if you want to continue using this project. Tidal has begun blocking accounts en masse starting from around now - not only users using this API but also other providers such as lucide.to. There is currently no solution for this - this includes homelab users who don't expose their API to the Internet.
 ---
 
 # 🎶 SpoFree
