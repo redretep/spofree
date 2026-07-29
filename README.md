@@ -1,4 +1,4 @@
-# good news, [monochrome](https://monochrome.tf) got updated and now works through QOBUZ! I wont update SpoFree anymore though.
+# DISCLAIMER: the public instance does not work because public hifi apis are getting banned by tidal. you can fork the repo and add your own hifi api if you want to continue using this project.
 ---
 
 # 🎶 SpoFree
